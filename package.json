@@ -16,7 +16,8 @@
   "main": "app.js",
   "scripts": {
     "build": "webpack --config webpack.prod.js --display errors-only -p",
-    "dev": "webpack --config webpack.dev.js --progress --colors --watch",
+    "dev:w": "webpack --config webpack.dev.js --progress --colors --watch",
+    "dev": "webpack --config webpack.dev.js --progress --colors",
     "doctoc": "doctoc --title='# Table of Contents' README.md",
     "lint": "standard",
     "jsonlint": "find . -type f -not -ipath \"./node_modules/*\" \\( -name \"*.json\" -o -name \"*.json.*\" \\) | xargs -n 1 -I{} -- bash -c 'echo {}; jq . {} > /dev/null;'",

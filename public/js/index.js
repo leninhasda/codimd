@@ -390,7 +390,7 @@ function setRefreshModal (status) {
 function setNeedRefresh () {
   needRefresh = true
   editor.setOption('readOnly', true)
-  socket.disconnect()
+  // socket.disconnect()
   showStatus(statusType.offline)
 }
 
@@ -1605,7 +1605,7 @@ ui.infobar.delete.click(function () {
   $('.delete-modal').modal('show')
 })
 $('.ui-delete-modal-confirm').click(function () {
-  socket.emit('delete')
+  // socket.emit('delete')
 })
 
 function toggleNightMode () {
@@ -1628,7 +1628,7 @@ function toggleNightMode () {
 }
 function emitPermission (_permission) {
   if (_permission !== permission) {
-    socket.emit('permission', _permission)
+    // socket.emit('permission', _permission)
   }
 }
 
@@ -1704,95 +1704,95 @@ function havePermission () {
 window.havePermission = havePermission
 
 // socket.io actions
-var io = require('socket.io-client')
-var socket = io.connect({
-  path: urlpath ? '/' + urlpath + '/socket.io/' : '',
-  query: {
-    noteId: noteid
-  },
-  timeout: 5000, // 5 secs to timeout,
-  reconnectionAttempts: 20 // retry 20 times on connect failed
-})
+// var io = require('socket.io-client')
+// var socket = io.connect({
+//   path: urlpath ? '/' + urlpath + '/socket.io/' : '',
+//   query: {
+//     noteId: noteid
+//   },
+//   timeout: 5000, // 5 secs to timeout,
+//   reconnectionAttempts: 20 // retry 20 times on connect failed
+// })
 // overwrite original event for checking login state
-var on = socket.on
-socket.on = function () {
-  if (!checkLoginStateChanged() && !needRefresh) { return on.apply(socket, arguments) }
-}
-var emit = socket.emit
-socket.emit = function () {
-  if (!checkLoginStateChanged() && !needRefresh) { emit.apply(socket, arguments) }
-}
-socket.on('info', function (data) {
-  console.error(data)
-  switch (data.code) {
-    case 403:
-      location.href = serverurl + '/403'
-      break
-    case 404:
-      location.href = serverurl + '/404'
-      break
-    case 500:
-      location.href = serverurl + '/500'
-      break
-  }
-})
-socket.on('error', function (data) {
-  console.error(data)
-  if (data.message && data.message.indexOf('AUTH failed') === 0) { location.href = serverurl + '/403' }
-})
-socket.on('delete', function () {
-  if (personalInfo.login) {
-    deleteServerHistory(noteid, function (err, data) {
-      if (!err) location.href = serverurl
-    })
-  } else {
-    getHistory(function (notehistory) {
-      var newnotehistory = removeHistory(noteid, notehistory)
-      saveHistory(newnotehistory)
-      location.href = serverurl
-    })
-  }
-})
-var retryTimer = null
-socket.on('maintenance', function () {
-  cmClient.revision = -1
-})
-socket.on('disconnect', function (data) {
-  showStatus(statusType.offline)
-  if (window.loaded) {
-    saveInfo()
-    lastInfo.history = editor.getHistory()
-  }
-  if (!editor.getOption('readOnly')) { editor.setOption('readOnly', true) }
-  if (!retryTimer) {
-    retryTimer = setInterval(function () {
-      if (!needRefresh) socket.connect()
-    }, 1000)
-  }
-})
-socket.on('reconnect', function (data) {
-  // sync back any change in offline
-  emitUserStatus(true)
-  cursorActivity(editor)
-  socket.emit('online users')
-})
-socket.on('connect', function (data) {
-  clearInterval(retryTimer)
-  retryTimer = null
-  personalInfo['id'] = socket.id
-  showStatus(statusType.connected)
-  socket.emit('version')
-})
-socket.on('version', function (data) {
-  if (version !== data.version) {
-    if (version < data.minimumCompatibleVersion) {
-      setRefreshModal('incompatible-version')
-      setNeedRefresh()
-    } else {
-      setRefreshModal('new-version')
-    }
-  }
-})
+// var on = socket.on
+// socket.on = function () {
+//   if (!checkLoginStateChanged() && !needRefresh) { return on.apply(socket, arguments) }
+// }
+// var emit = socket.emit
+// socket.emit = function () {
+//   if (!checkLoginStateChanged() && !needRefresh) { emit.apply(socket, arguments) }
+// }
+// socket.on('info', function (data) {
+//   console.error(data)
+//   switch (data.code) {
+//     case 403:
+//       location.href = serverurl + '/403'
+//       break
+//     case 404:
+//       location.href = serverurl + '/404'
+//       break
+//     case 500:
+//       location.href = serverurl + '/500'
+//       break
+//   }
+// })
+// socket.on('error', function (data) {
+//   console.error(data)
+//   if (data.message && data.message.indexOf('AUTH failed') === 0) { location.href = serverurl + '/403' }
+// })
+// socket.on('delete', function () {
+//   if (personalInfo.login) {
+//     deleteServerHistory(noteid, function (err, data) {
+//       if (!err) location.href = serverurl
+//     })
+//   } else {
+//     getHistory(function (notehistory) {
+//       var newnotehistory = removeHistory(noteid, notehistory)
+//       saveHistory(newnotehistory)
+//       location.href = serverurl
+//     })
+//   }
+// })
+// var retryTimer = null
+// socket.on('maintenance', function () {
+//   cmClient.revision = -1
+// })
+// socket.on('disconnect', function (data) {
+//   showStatus(statusType.offline)
+//   if (window.loaded) {
+//     saveInfo()
+//     lastInfo.history = editor.getHistory()
+//   }
+//   if (!editor.getOption('readOnly')) { editor.setOption('readOnly', true) }
+//   if (!retryTimer) {
+//     retryTimer = setInterval(function () {
+//       if (!needRefresh) socket.connect()
+//     }, 1000)
+//   }
+// })
+// socket.on('reconnect', function (data) {
+//   // sync back any change in offline
+//   emitUserStatus(true)
+//   cursorActivity(editor)
+//   socket.emit('online users')
+// })
+// socket.on('connect', function (data) {
+//   clearInterval(retryTimer)
+//   retryTimer = null
+//   personalInfo['id'] = socket.id
+//   showStatus(statusType.connected)
+//   socket.emit('version')
+// })
+// socket.on('version', function (data) {
+//   if (version !== data.version) {
+//     if (version < data.minimumCompatibleVersion) {
+//       setRefreshModal('incompatible-version')
+//       setNeedRefresh()
+//     } else {
+//       setRefreshModal('new-version')
+//     }
+//   }
+// })
 var authors = []
 var authorship = []
 var authorMarks = {} // temp variable
@@ -2022,51 +2022,51 @@ editorInstance.on('update', function () {
     if ($('[aria-describedby="' + $ele.attr('id') + '"]').length <= 0) $ele.remove()
   })
 })
-socket.on('check', function (data) {
-  // console.log(data);
-  updateInfo(data)
-})
-socket.on('permission', function (data) {
-  updatePermission(data.permission)
-})
+// socket.on('check', function (data) {
+//   // console.log(data);
+//   updateInfo(data)
+// })
+// socket.on('permission', function (data) {
+//   updatePermission(data.permission)
+// })
 
 var permission = null
-socket.on('refresh', function (data) {
-  // console.log(data);
-  editorInstance.config.docmaxlength = data.docmaxlength
-  editor.setOption('maxLength', editorInstance.config.docmaxlength)
-  updateInfo(data)
-  updatePermission(data.permission)
-  if (!window.loaded) {
-    // auto change mode if no content detected
-    var nocontent = editor.getValue().length <= 0
-    if (nocontent) {
-      if (visibleXS) { appState.currentMode = modeType.edit } else { appState.currentMode = modeType.both }
-    }
-    // parse mode from url
-    if (window.location.search.length > 0) {
-      var urlMode = modeType[window.location.search.substr(1)]
-      if (urlMode) appState.currentMode = urlMode
-    }
-    changeMode(appState.currentMode)
-    if (nocontent && !visibleXS) {
-      editor.focus()
-      editor.refresh()
-    }
-    updateViewInner() // bring up view rendering earlier
-    updateHistory() // update history whether have content or not
-    window.loaded = true
-    emitUserStatus() // send first user status
-    updateOnlineStatus() // update first online status
-    setTimeout(function () {
-      // work around editor not refresh or doc not fully loaded
-      windowResizeInner()
-      // work around might not scroll to hash
-      scrollToHash()
-    }, 1)
-  }
-  if (editor.getOption('readOnly')) { editor.setOption('readOnly', false) }
-})
+// socket.on('refresh', function (data) {
+//   // console.log(data);
+//   editorInstance.config.docmaxlength = data.docmaxlength
+//   editor.setOption('maxLength', editorInstance.config.docmaxlength)
+//   updateInfo(data)
+//   updatePermission(data.permission)
+//   if (!window.loaded) {
+//     // auto change mode if no content detected
+//     var nocontent = editor.getValue().length <= 0
+//     if (nocontent) {
+//       if (visibleXS) { appState.currentMode = modeType.edit } else { appState.currentMode = modeType.both }
+//     }
+//     // parse mode from url
+//     if (window.location.search.length > 0) {
+//       var urlMode = modeType[window.location.search.substr(1)]
+//       if (urlMode) appState.currentMode = urlMode
+//     }
+//     changeMode(appState.currentMode)
+//     if (nocontent && !visibleXS) {
+//       editor.focus()
+//       editor.refresh()
+//     }
+//     updateViewInner() // bring up view rendering earlier
+//     updateHistory() // update history whether have content or not
+//     window.loaded = true
+//     emitUserStatus() // send first user status
+//     updateOnlineStatus() // update first online status
+//     setTimeout(function () {
+//       // work around editor not refresh or doc not fully loaded
+//       windowResizeInner()
+//       // work around might not scroll to hash
+//       scrollToHash()
+//     }, 1)
+//   }
+//   if (editor.getOption('readOnly')) { editor.setOption('readOnly', false) }
+// })
 
 var EditorClient = ot.EditorClient
 var SocketIOAdapter = ot.SocketIOAdapter
@@ -2078,134 +2078,134 @@ function havePendingOperation () {
   return !!((cmClient && cmClient.state && Object.hasOwnProperty.call(cmClient.state, 'outstanding')))
 }
 
-socket.on('doc', function (obj) {
-  var body = obj.str
-  var bodyMismatch = editor.getValue() !== body
-  var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation()))) || obj.force
+// socket.on('doc', function (obj) {
+//   var body = obj.str
+//   var bodyMismatch = editor.getValue() !== body
+//   var setDoc = !cmClient || (cmClient && (cmClient.revision === -1 || (cmClient.revision !== obj.revision && !havePendingOperation()))) || obj.force
 
-  saveInfo()
-  if (setDoc && bodyMismatch) {
-    if (cmClient) cmClient.editorAdapter.ignoreNextChange = true
-    if (body) editor.setValue(body)
-    else editor.setValue('')
-  }
+//   saveInfo()
+//   if (setDoc && bodyMismatch) {
+//     if (cmClient) cmClient.editorAdapter.ignoreNextChange = true
+//     if (body) editor.setValue(body)
+//     else editor.setValue('')
+//   }
 
-  if (!window.loaded) {
-    editor.clearHistory()
-    ui.spinner.hide()
-    ui.content.fadeIn()
-  } else {
-    // if current doc is equal to the doc before disconnect
-    if (setDoc && bodyMismatch) editor.clearHistory()
-    else if (lastInfo.history) editor.setHistory(lastInfo.history)
-    lastInfo.history = null
-  }
+//   if (!window.loaded) {
+//     editor.clearHistory()
+//     ui.spinner.hide()
+//     ui.content.fadeIn()
+//   } else {
+//     // if current doc is equal to the doc before disconnect
+//     if (setDoc && bodyMismatch) editor.clearHistory()
+//     else if (lastInfo.history) editor.setHistory(lastInfo.history)
+//     lastInfo.history = null
+//   }
 
-  if (!cmClient) {
-    cmClient = window.cmClient = new EditorClient(
-      obj.revision, obj.clients,
-      new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
-    )
-    synchronized_ = cmClient.state
-  } else if (setDoc) {
-    if (bodyMismatch) {
-      cmClient.undoManager.undoStack.length = 0
-      cmClient.undoManager.redoStack.length = 0
-    }
-    cmClient.revision = obj.revision
-    cmClient.setState(synchronized_)
-    cmClient.initializeClientList()
-    cmClient.initializeClients(obj.clients)
-  } else if (havePendingOperation()) {
-    cmClient.serverReconnect()
-  }
+//   if (!cmClient) {
+//     cmClient = window.cmClient = new EditorClient(
+//       obj.revision, obj.clients,
+//       new SocketIOAdapter(socket), new CodeMirrorAdapter(editor)
+//     )
+//     synchronized_ = cmClient.state
+//   } else if (setDoc) {
+//     if (bodyMismatch) {
+//       cmClient.undoManager.undoStack.length = 0
+//       cmClient.undoManager.redoStack.length = 0
+//     }
+//     cmClient.revision = obj.revision
+//     cmClient.setState(synchronized_)
+//     cmClient.initializeClientList()
+//     cmClient.initializeClients(obj.clients)
+//   } else if (havePendingOperation()) {
+//     cmClient.serverReconnect()
+//   }
 
-  if (setDoc && bodyMismatch) {
-    isDirty = true
-    updateView()
-  }
+//   if (setDoc && bodyMismatch) {
+//     isDirty = true
+//     updateView()
+//   }
 
-  restoreInfo()
-})
+//   restoreInfo()
+// })
 
-socket.on('ack', function () {
-  isDirty = true
-  updateView()
-})
+// socket.on('ack', function () {
+//   isDirty = true
+//   updateView()
+// })
 
-socket.on('operation', function () {
-  isDirty = true
-  updateView()
-})
+// socket.on('operation', function () {
+//   isDirty = true
+//   updateView()
+// })
 
-socket.on('online users', function (data) {
-  if (debug) { console.debug(data) }
-  onlineUsers = data.users
-  updateOnlineStatus()
-  $('.CodeMirror-other-cursors').children().each(function (key, value) {
-    var found = false
-    for (var i = 0; i < data.users.length; i++) {
-      var user = data.users[i]
-      if ($(this).attr('id') === user.id) { found = true }
-    }
-    if (!found) {
-      $(this).stop(true).fadeOut('normal', function () {
-        $(this).remove()
-      })
-    }
-  })
-  for (var i = 0; i < data.users.length; i++) {
-    var user = data.users[i]
-    if (user.id !== socket.id) { buildCursor(user) } else { personalInfo = user }
-  }
-})
-socket.on('user status', function (data) {
-  if (debug) { console.debug(data) }
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === data.id) {
-      onlineUsers[i] = data
-    }
-  }
-  updateOnlineStatus()
-  if (data.id !== socket.id) { buildCursor(data) }
-})
-socket.on('cursor focus', function (data) {
-  if (debug) { console.debug(data) }
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === data.id) {
-      onlineUsers[i].cursor = data.cursor
-    }
-  }
-  if (data.id !== socket.id) { buildCursor(data) }
-  // force show
-  var cursor = $('div[data-clientid="' + data.id + '"]')
-  if (cursor.length > 0) {
-    cursor.stop(true).fadeIn()
-  }
-})
-socket.on('cursor activity', function (data) {
-  if (debug) { console.debug(data) }
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === data.id) {
-      onlineUsers[i].cursor = data.cursor
-    }
-  }
-  if (data.id !== socket.id) { buildCursor(data) }
-})
-socket.on('cursor blur', function (data) {
-  if (debug) { console.debug(data) }
-  for (var i = 0; i < onlineUsers.length; i++) {
-    if (onlineUsers[i].id === data.id) {
-      onlineUsers[i].cursor = null
-    }
-  }
-  if (data.id !== socket.id) { buildCursor(data) }
-  // force hide
-  var cursor = $('div[data-clientid="' + data.id + '"]')
-  if (cursor.length > 0) {
-    cursor.stop(true).fadeOut()
-  }
-})
+// socket.on('online users', function (data) {
+//   if (debug) { console.debug(data) }
+//   onlineUsers = data.users
+//   updateOnlineStatus()
+//   $('.CodeMirror-other-cursors').children().each(function (key, value) {
+//     var found = false
+//     for (var i = 0; i < data.users.length; i++) {
+//       var user = data.users[i]
+//       if ($(this).attr('id') === user.id) { found = true }
+//     }
+//     if (!found) {
+//       $(this).stop(true).fadeOut('normal', function () {
+//         $(this).remove()
+//       })
+//     }
+//   })
+//   for (var i = 0; i < data.users.length; i++) {
+//     var user = data.users[i]
+//     if (user.id !== socket.id) { buildCursor(user) } else { personalInfo = user }
+//   }
+// })
+// socket.on('user status', function (data) {
+//   if (debug) { console.debug(data) }
+//   for (var i = 0; i < onlineUsers.length; i++) {
+//     if (onlineUsers[i].id === data.id) {
+//       onlineUsers[i] = data
+//     }
+//   }
+//   updateOnlineStatus()
+//   if (data.id !== socket.id) { buildCursor(data) }
+// })
+// socket.on('cursor focus', function (data) {
+//   if (debug) { console.debug(data) }
+//   for (var i = 0; i < onlineUsers.length; i++) {
+//     if (onlineUsers[i].id === data.id) {
+//       onlineUsers[i].cursor = data.cursor
+//     }
+//   }
+//   if (data.id !== socket.id) { buildCursor(data) }
+//   // force show
+//   var cursor = $('div[data-clientid="' + data.id + '"]')
+//   if (cursor.length > 0) {
+//     cursor.stop(true).fadeIn()
+//   }
+// })
+// socket.on('cursor activity', function (data) {
+//   if (debug) { console.debug(data) }
+//   for (var i = 0; i < onlineUsers.length; i++) {
+//     if (onlineUsers[i].id === data.id) {
+//       onlineUsers[i].cursor = data.cursor
+//     }
+//   }
+//   if (data.id !== socket.id) { buildCursor(data) }
+// })
+// socket.on('cursor blur', function (data) {
+//   if (debug) { console.debug(data) }
+//   for (var i = 0; i < onlineUsers.length; i++) {
+//     if (onlineUsers[i].id === data.id) {
+//       onlineUsers[i].cursor = null
+//     }
+//   }
+//   if (data.id !== socket.id) { buildCursor(data) }
+//   // force hide
+//   var cursor = $('div[data-clientid="' + data.id + '"]')
+//   if (cursor.length > 0) {
+//     cursor.stop(true).fadeOut()
+//   }
+// })
 
 var options = {
   valueNames: ['id', 'name'],
@@ -2220,7 +2220,8 @@ var onlineUserList = new List('online-user-list', options)
 var shortOnlineUserList = new List('short-online-user-list', options)
 
 function updateOnlineStatus () {
-  if (!window.loaded || !socket.connected) return
+  // if (!window.loaded || !socket.connected) return
+  if (!window.loaded) return
   var _onlineUsers = deduplicateOnlineUsers(onlineUsers)
   showStatus(statusType.online, _onlineUsers.length)
   var items = onlineUserList.items
@@ -2364,7 +2365,7 @@ function emitUserStatus (force) {
   }
 
   if (force || JSON.stringify(userStatus) !== JSON.stringify(userStatusCache)) {
-    socket.emit('user status', userStatus)
+    // socket.emit('user status', userStatus)
     userStatusCache = userStatus
   }
 }
@@ -2581,7 +2582,7 @@ editorInstance.on('beforeChange', function (cm, change) {
       updateTitleReminder()
     }
   }
-  if (cmClient && !socket.connected) { cmClient.editorAdapter.ignoreNextChange = true }
+  // if (cmClient && !socket.connected) { cmClient.editorAdapter.ignoreNextChange = true }
 })
 editorInstance.on('cut', function () {
   // na
@@ -2620,7 +2621,7 @@ editorInstance.on('focus', function (editor) {
     }
   }
   personalInfo['cursor'] = editor.getCursor()
-  socket.emit('cursor focus', editor.getCursor())
+  // socket.emit('cursor focus', editor.getCursor())
 })
 
 const cursorActivity = _.debounce(cursorActivityInner, cursorActivityDebounce)
@@ -2633,7 +2634,7 @@ function cursorActivityInner (editor) {
       }
     }
     personalInfo['cursor'] = editor.getCursor()
-    socket.emit('cursor activity', editor.getCursor())
+    // socket.emit('cursor activity', editor.getCursor())
   }
 }
 
@@ -2680,7 +2681,7 @@ editorInstance.on('blur', function (cm) {
     }
   }
   personalInfo['cursor'] = null
-  socket.emit('cursor blur')
+  // socket.emit('cursor blur')
 })
 
 function saveInfo () {

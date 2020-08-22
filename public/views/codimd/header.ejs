@@ -22,17 +22,17 @@
                 <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu list" role="menu" aria-labelledby="menu">
-                <li role="presentation"><a role="menuitem" class="ui-new" tabindex="-1" href="<%- serverURL %>/new" target="_blank" rel="noopener"><i class="fa fa-plus fa-fw"></i> <%= __('New') %></a>
+                <li role="presentation"><a role="menuitem" class="ui-new" tabindex="-1" href="<%- serverURL %>/new" target="_blank" rel="noopener"><i class="fa fa-plus fa-fw"></i> New</a>
                 </li>
-                <li role="presentation"><a role="menuitem" class="ui-publish" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-share-square-o fa-fw"></i> <%= __('Publish') %></a>
+                <li role="presentation"><a role="menuitem" class="ui-publish" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-share-square-o fa-fw"></i> Publish</a>
                 </li>
                 <li class="divider"></li>
-                <li class="dropdown-header"><%= __('Extra') %></li>
-                <li role="presentation"><a role="menuitem" class="ui-extra-revision" tabindex="-1" data-toggle="modal" data-target="#revisionModal"><i class="fa fa-history fa-fw"></i> <%= __('Revision') %></a>
+                <li class="dropdown-header">Extra</li>
+                <li role="presentation"><a role="menuitem" class="ui-extra-revision" tabindex="-1" data-toggle="modal" data-target="#revisionModal"><i class="fa fa-history fa-fw"></i>Revision</a>
                 </li>
-                <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
+                <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i>Slide Mode</a>
                 </li>
-                <% if(enableGitHubGist || enableDropBoxSave || enableGitlabSnippets) { %>
+                <!-- <% if(enableGitHubGist || enableDropBoxSave || enableGitlabSnippets) { %>
                 <li class="divider"></li>
                 <li class="dropdown-header"><%= __('Export') %></li>
                 <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
@@ -45,31 +45,20 @@
                 <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
                 </li>
                 <% } %>
-                <% } %>
+                <% } %> -->
                 <li class="divider"></li>
-                <li class="dropdown-header"><%= __('Import') %></li>
+                <li class="dropdown-header">Import</li>
                 <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                 </li>
-                <% if(enableGitlabSnippets) { %>
-                <li role="presentation"><a role="menuitem" class="ui-import-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
-                </li>
-                <% } %>
-                <li role="presentation"><a role="menuitem" class="ui-import-clipboard" href="#" data-toggle="modal" data-target="#clipboardModal"><i class="fa fa-clipboard fa-fw"></i> <%= __('Clipboard') %></a>
-                </li>
                 <li class="divider"></li>
-                <li class="dropdown-header"><%= __('Download') %></li>
                 <li role="presentation"><a role="menuitem" class="ui-download-markdown" tabindex="-1" href="#" target="_self"><i class="fa fa-file-text fa-fw"></i> Markdown</a>
                 </li>
                 <li role="presentation"><a role="menuitem" class="ui-download-html" tabindex="-1" href="#" target="_self"><i class="fa fa-file-code-o fa-fw"></i> HTML</a>
                 </li>
-                <li role="presentation"><a role="menuitem" class="ui-download-raw-html" tabindex="-1" href="#" target="_self"><i class="fa fa-file-code-o fa-fw"></i> <%= __('Raw HTML') %></a>
+                <li role="presentation"><a role="menuitem" class="ui-download-raw-html" tabindex="-1" href="#" target="_self"><i class="fa fa-file-code-o fa-fw"></i> Raw HTML</a>
                 </li>
-                <% if(typeof allowPDFExport !== 'undefined' && allowPDFExport) {%>
-                  <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
-                  </li>
-                <% } %>
                 <li role="presentation"><a role="menuitem" class="ui-download-pandoc" tabindex="-1" href="#" target="_self" data-toggle="modal" data-target=".pandoc-export-modal"><i class="fa fa-cloud-download fa-fw"></i> Pandoc (Beta)</a>
                 </li>
                 <li class="divider"></li>
@@ -84,25 +73,25 @@
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-form navbar-left" style="padding:0;">
             <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-default ui-edit" title="<%= __('Edit') %> (Ctrl+Alt+E)">
+                <label class="btn btn-default ui-edit" title="Edit (Ctrl+Alt+E)">
                     <input type="radio" name="mode" autocomplete="off"><i class="fa fa-pencil"></i>
                 </label>
-                <label class="btn btn-default ui-both" title="<%= __('Both') %> (Ctrl+Alt+B)">
+                <label class="btn btn-default ui-both" title="Both (Ctrl+Alt+B)">
                     <input type="radio" name="mode" autocomplete="off"><i class="fa fa-columns"></i>
                 </label>
-                <label class="btn btn-default ui-view" title="<%= __('View') %> (Ctrl+Alt+V)">
+                <label class="btn btn-default ui-view" title="View (Ctrl+Alt+V)">
                     <input type="radio" name="mode" autocomplete="off"><i class="fa fa-eye"></i>
                 </label>
             </div>
             <div class="btn-group" data-toggle="buttons">
-                <label class="btn ui-night" title="<%= __('Night Theme') %>">
+                <label class="btn ui-night" title="Night Theme">
                     <input type="checkbox" name="night"><i class="fa fa-moon-o"></i>
                 </label>
             </div>
-            <span class="btn btn-link btn-file ui-help" title="<%= __('Help') %>" data-toggle="modal" data-target=".help-modal">
+            <span class="btn btn-link btn-file ui-help" title="Help" data-toggle="modal" data-target=".help-modal">
                 <i class="fa fa-question-circle"></i>
             </span>
-            <span class="btn btn-link btn-file ui-upload-image" title="<%= __('Upload Image') %>" style="display:none;">
+            <span class="btn btn-link btn-file ui-upload-image" title="Upload Image" style="display:none;">
                 <i class="fa fa-camera"></i><input type="file" accept="image/*" name="upload" multiple>
             </span>
         </ul>
@@ -118,62 +107,34 @@
         <ul class="nav navbar-nav navbar-right" style="padding:0;">
             <li>
                 <a href="<%- serverURL %>/new" target="_blank" rel="noopener" class="ui-new">
-                    <i class="fa fa-plus"></i> <%= __('New') %>
+                    <i class="fa fa-plus"></i> New
                 </a>
             </li>
             <li>
                 <a href="#" target="_blank" rel="noopener" class="ui-publish">
-                    <i class="fa fa-share-square-o"></i> <%= __('Publish') %>
+                    <i class="fa fa-share-square-o"></i> Publish
                 </a>
             </li>
             <li>
                 <a data-toggle="dropdown">
-                    <%= __('Menu') %> <i class="fa fa-caret-down"></i>
+                    Menu <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu list" role="menu" aria-labelledby="menu">
-                    <li class="dropdown-header"><%= __('Extra') %></li>
-                    <li role="presentation"><a role="menuitem" class="ui-extra-revision" tabindex="-1" data-toggle="modal" data-target="#revisionModal"><i class="fa fa-history fa-fw"></i> <%= __('Revision') %></a>
+                    <li class="dropdown-header">Extra</li>
+                    <li role="presentation"><a role="menuitem" class="ui-extra-revision" tabindex="-1" data-toggle="modal" data-target="#revisionModal"><i class="fa fa-history fa-fw"></i> Revision</a>
                     </li>
-                    <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i> <%= __('Slide Mode') %></a>
+                    <li role="presentation"><a role="menuitem" class="ui-extra-slide" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-tv fa-fw"></i> Slide Mode</a>
                     </li>
-                    <% if(enableGitHubGist || enableDropBoxSave || enableGitlabSnippets) { %>
                     <li class="divider"></li>
-                    <li class="dropdown-header"><%= __('Export') %></li>
-                    <li role="presentation"><a role="menuitem" class="ui-save-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
-                    </li>
-                    <% if(enableGitHubGist) { %>
-                    <li role="presentation"><a role="menuitem" class="ui-save-gist" tabindex="-1" href="#" target="_blank" rel="noopener"><i class="fa fa-github fa-fw"></i> Gist</a>
-                    </li>
-                    <% } %>
-                    <% if(enableGitlabSnippets) { %>
-                    <li role="presentation"><a role="menuitem" class="ui-save-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
-                    </li>
-                    <% } %>
-                    <% } %>
-                    <li class="divider"></li>
-                    <li class="dropdown-header"><%= __('Import') %></li>
                     <li role="presentation"><a role="menuitem" class="ui-import-dropbox" tabindex="-1" href="#" target="_self"><i class="fa fa-dropbox fa-fw"></i> Dropbox</a>
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-import-gist" href="#" data-toggle="modal" data-target="#gistImportModal"><i class="fa fa-github fa-fw"></i> Gist</a>
                     </li>
-                    <% if(enableGitlabSnippets) { %>
-                    <li role="presentation"><a role="menuitem" class="ui-import-snippet" href="#"><i class="fa fa-gitlab fa-fw"></i> Snippet</a>
-                    </li>
-                    <% } %>
-                    <li role="presentation"><a role="menuitem" class="ui-import-clipboard" href="#" data-toggle="modal" data-target="#clipboardModal"><i class="fa fa-clipboard fa-fw"></i> <%= __('Clipboard') %></a>
-                    </li>
                     <li class="divider"></li>
-                    <li class="dropdown-header"><%= __('Download') %></li>
                     <li role="presentation"><a role="menuitem" class="ui-download-markdown" tabindex="-1" href="#" target="_self"><i class="fa fa-file-text fa-fw"></i> Markdown</a>
                     </li>
                     <li role="presentation"><a role="menuitem" class="ui-download-html" tabindex="-1" href="#" target="_self"><i class="fa fa-file-code-o fa-fw"></i> HTML</a>
                     </li>
-                    <li role="presentation"><a role="menuitem" class="ui-download-raw-html" tabindex="-1" href="#" target="_self"><i class="fa fa-file-code-o fa-fw"></i> <%= __('Raw HTML') %></a>
-                    </li>
-                    <% if(typeof allowPDFExport !== 'undefined' && allowPDFExport) {%>
-                      <li role="presentation"><a role="menuitem" class="ui-download-pdf-beta" tabindex="-1" href="#" target="_self"><i class="fa fa-file-pdf-o fa-fw"></i> PDF (Beta)</a>
-                      </li>
-                    <% } %>
                     <li role="presentation"><a role="menuitem" class="ui-download-pandoc" tabindex="-1" href="#" target="_self" data-toggle="modal" data-target=".pandoc-export-modal"><i class="fa fa-cloud-download fa-fw"></i> Pandoc (Beta)</a>
                     </li>
                 </ul>
